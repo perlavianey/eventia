@@ -11,7 +11,11 @@ const EventSchema = new Schema ({
   schedule:[],
   typeEvent:{
     type: String,
-    enum : ['Cultural','Musical','Exposición',"Deportivo","Otro"],
+    enum : ['Cultural',
+    'Musical',
+    'Exposición',
+    "Deportivo",
+    "Otro"],
     default: 'Musical'
   },
   priceTicket:Number,

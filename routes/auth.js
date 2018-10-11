@@ -5,14 +5,14 @@ const passport = require ('passport')
 const {generateToken,verifyToken} = require('../helpers/jwt')
 
 router.get('/private',verifyToken,(req,res,next) =>{
-  res.send("Bienvenido " + req.user.name)
+  res.send("Bienvenido " + req.user.name) //req.data
 })
 
 router.post('/login', passport.authenticate('local'),(req,res,next) =>{
   const token = generateToken(req.user)
   res.status(200).json({token,user:req.user})
-  .then(user=>{})
-  .catch(e=>next(e))
+  // .then(user=>{console.log(user)})
+  // .catch(e=>next(e))
 })
 
 router.post('/signup',(req,res,next) =>{
