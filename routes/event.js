@@ -2,12 +2,12 @@ const express = require ('express')
 const router = express.Router()
 const User = require('../models/User')
 const Event = require('../models/Event')
-//const {generateToken,verifyToken} = require('../helpers/jwt')
+const {generateToken,verifyToken} = require('../helpers/jwt')
 
-// router.get('/organizerProfile',verifyToken,(req,res,next) =>{
-//   console.log("Respuesta de backend" + req.user)
-//   res.send("Hola organizador " + req.user.name)
-// })
+router.get('/organizerProfile',verifyToken,(req,res,next) =>{
+  console.log("Respuesta de backend" + req.user)
+  res.send("Hola organizador " + req.user.name)
+})
 
 router.post('/newEvent', (req,res,next) =>{
   Event.create(req.body)
@@ -20,18 +20,20 @@ router.post('/newEvent', (req,res,next) =>{
 router.get('/getAllEvents', (req,res,next) =>{
   Event.find()
     .then(eventos=>{        
-      return eventos
+      res.status(201).json(eventos)
     }).catch(e=>{
       next(e)
     })
 })
 
-router.get('/getEvents', (req,res,next) =>{
-  req.app.locals.loggedUser = req.user;
+router.get('/getEvents', verifyToken,(req,res,next) =>{
+  //req.app.locals.loggedUser = req.user;
   //{manager:ObjectId("5bbe2eac3c00b13ae030514f")}
-  Event.find({manager:ObjectId(req.app.locals.loggedUser)})
+
+
+  Event.find({manager:(req.user._id)})
     .then(eventos=>{        
-      return eventos
+      res.status(201).json(eventos)
     }).catch(e=>{
       next(e)
     })
