@@ -2,6 +2,7 @@ const express = require ('express')
 const router = express.Router()
 const User = require('../models/User')
 const Event = require('../models/Event')
+const uploadCloud = require('../helpers/cloudinary')
 const {generateToken,verifyToken} = require('../helpers/jwt')
 
 router.get('/organizerProfile',verifyToken,(req,res,next) =>{
@@ -9,7 +10,12 @@ router.get('/organizerProfile',verifyToken,(req,res,next) =>{
   res.send("Hola organizador " + req.user.name)
 })
 
-router.post('/newEvent', (req,res,next) =>{
+router.post('/newEvent',uploadCloud.single('image'),(req,res,next) =>{
+  
+  if(req.file){
+    req.body['imageURL'] = req.file.url
+    console.log("Entra")
+  }
   Event.create(req.body)
   .then(event=>{
     res.status(201).json(event)
@@ -27,10 +33,15 @@ router.get('/getAllEvents', (req,res,next) =>{
 })
 
 router.get('/getEvents', verifyToken,(req,res,next) =>{
-  //req.app.locals.loggedUser = req.user;
-  //{manager:ObjectId("5bbe2eac3c00b13ae030514f")}
-
-
+  Event.find({manager:(req.user._id)})
+    .then(eventos=>{        
+      res.status(201).json(eventos)
+    }).catch(e=>{
+      next(e)
+    })
+})
+//EDITANDO:
+router.get('/getEvents', (req,res,next) =>{
   Event.find({manager:(req.user._id)})
     .then(eventos=>{        
       res.status(201).json(eventos)
