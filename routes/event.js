@@ -10,12 +10,9 @@ router.get('/organizerProfile',verifyToken,(req,res,next) =>{
   res.send("Hola organizador " + req.user.name)
 })
 
-router.post('/newEvent',uploadCloud.single('image'),(req,res,next) =>{
-  
-  if(req.file){
-    req.body['imageURL'] = req.file.url
-    console.log("Entra")
-  }
+router.post('/newEvent',verifyToken,uploadCloud.single('imageURL'),(req,res,next) =>{
+  console.log(req.body)
+  if(req.file)req.body.imageURL = req.file.url
   Event.create(req.body)
   .then(event=>{
     res.status(201).json(event)
@@ -41,10 +38,13 @@ router.get('/getEvents', verifyToken,(req,res,next) =>{
     })
 })
 //EDITANDO:
-router.get('/getEvents', (req,res,next) =>{
-  Event.find({manager:(req.user._id)})
-    .then(eventos=>{        
-      res.status(201).json(eventos)
+router.get('/getEvent/:id', (req,res,next) =>{
+  const {id} = req.params
+  console.log(id)
+  Event.findById(id)
+    .then(evento=>{  
+      // console.log(evento.name)      
+      res.status(201).json(evento)
     }).catch(e=>{
       next(e)
     })

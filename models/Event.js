@@ -5,10 +5,20 @@ const EventSchema = new Schema ({
   name:{type:String,required:true},
   description:{type:String},
   imageURL:String,
-  place:String,
+  //place:String,
+  location:{
+    type:{
+      type:String,
+      default:'Point'
+    },
+    address:String,
+      coordinates:[{
+        type:Number
+      }]
+  },
   date:String,
   availableSeats:Number,
-  schedule:[],
+  schedule:String,
   typeEvent:{
     type: String,
     enum : ['Presentación de Libro',
@@ -20,7 +30,6 @@ const EventSchema = new Schema ({
     default: 'Presentación de Libro'
   },
   priceTicket:Number,
-  city:String,
   manager:{
     type:Schema.Types.ObjectId,
     ref:'User'
