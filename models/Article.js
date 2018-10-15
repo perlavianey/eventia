@@ -3,11 +3,12 @@ const Schema = mongoose.Schema
 
 const ArticleSchema = new Schema ({
   name:{type:String,required:true},
-  imagesURL:[],
+  description:String,
+  imageURL:String,
   size:[],
-  color:[],
+  color:String,
   price:Number,
-  otherFeatures:String,
+  stock:Number,
   vendor:{
     type:Schema.Types.ObjectId,
     ref:'User'

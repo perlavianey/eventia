@@ -67,5 +67,7 @@ app.use('/', auth);
 const event = require('./routes/event');
 app.use('/', event);
 
+const article = require('./routes/article');
+app.use('/', article);
 
 module.exports = app;
