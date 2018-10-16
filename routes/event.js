@@ -53,10 +53,20 @@ router.get('/getEvents', verifyToken,(req,res,next) =>{
     })
 })
 
+//Traer todos los eventos filtrados por tipo de evento
+router.get('/getEventsFilter/:typeEvent', (req,res,next) =>{
+  const {typeEvent} = req.params
+  Event.find({typeEvent:typeEvent})
+    .then(eventos=>{        
+      res.status(201).json(eventos)
+    }).catch(e=>{
+      next(e)
+    })
+})
+
 //Traer un Evento por ID
 router.get('/getEvent/:id', (req,res,next) =>{
   const {id} = req.params
-  console.log(id)
   Event.findById(id)
     .then(evento=>{     
       res.status(201).json(evento)
@@ -82,6 +92,5 @@ router.get('/deleteEvent/:id',(req,res,next)=>{
     return res.json(evento)
   }).catch(e=>next(e))
 })
-
 
 module.exports = router

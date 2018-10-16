@@ -5,7 +5,7 @@ const ArticleSchema = new Schema ({
   name:{type:String,required:true},
   description:String,
   imageURL:String,
-  size:[],
+  size:Array,
   color:String,
   price:Number,
   stock:Number,
