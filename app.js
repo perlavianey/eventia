@@ -70,4 +70,7 @@ app.use('/', event);
 const article = require('./routes/article');
 app.use('/', article);
 
+const order = require('./routes/order');
+app.use('/', order);
+
 module.exports = app;

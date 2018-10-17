@@ -23,7 +23,7 @@ router.post('/newArticle',verifyToken,uploadCloud.single('imageURL'),(req,res,ne
 })
 
 //Traer los artículos de un evento en partícular
-router.get('/getArticles/:eventId', verifyToken,(req,res,next) =>{
+router.get('/getArticles/:eventId',(req,res,next) =>{
   const {eventId} = req.params
   Article.find({event:(eventId)})
     .then(articles=>{        
@@ -45,7 +45,7 @@ router.get('/getArticle/:id', (req,res,next) =>{
     })
 })
 
-//Actualizar Evento por ID
+//Actualizar Artículo por ID
 router.post('/updateArticle/:id',verifyToken,uploadCloud.single('imageURL'),(req,res,next) =>{
   const {id} = req.params
   if(req.file)req.body.imageURL = req.file.url
@@ -56,7 +56,7 @@ router.post('/updateArticle/:id',verifyToken,uploadCloud.single('imageURL'),(req
   .catch(e=>next(e))
 })
 
-//Borrar un evento
+//Borrar un artículo
 router.get('/deleteArticle/:id',(req,res,next)=>{
   const {id}=req.params
   Article.findByIdAndRemove(id)

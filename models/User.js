@@ -6,7 +6,7 @@ const UserSchema = new Schema ({
   email:String,
   name:{type:String,required:true},
   lastName:{type:String,required:true},
-  photoURL:{type:String,default:'https://png.icons8.com/android/1600/user.png'},
+  photoURL:{type:String,default:'https://res.cloudinary.com/perlavianey/image/upload/v1539712528/reading.png'},
   city:String,
   role: {
     type: String,
