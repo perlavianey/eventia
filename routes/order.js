@@ -16,7 +16,7 @@ router.post('/newOrder',verifyToken,(req,res,next) =>{
 //Traer todos las órdenes de un usuario
 router.get('/getOrders/:id',verifyToken,(req,res,next) =>{
   const {id} = req.params
-  Order.find({user:(id)}).populate('user').populate('event')
+  Order.find({user:(id)}).populate('user').populate('event').populate('articles.product')
     .then(ordenes=>{       
       res.status(201).json(ordenes)
     }).catch(e=>{
