@@ -24,4 +24,16 @@ router.get('/getOrders/:id',verifyToken,(req,res,next) =>{
     })
 })
 
+//Traer una orden por ID
+router.get('/getOrder/:id', (req,res,next) =>{
+  const {id} = req.params
+  Order.findById(id).populate('user').populate('event').populate('articles.product')
+    .then(order=>{     
+      res.status(201).json(order)
+    }).catch(e=>{
+      next(e)
+    })
+})
+
+
 module.exports = router
